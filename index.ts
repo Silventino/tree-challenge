@@ -27,6 +27,7 @@ function createTree(
   return root;
 }
 
+// DFS to find the maximun path descending from a root
 function findMaximunPathDFS(node: TreeNode | null): number {
   if (!node) return 0;
 
@@ -40,6 +41,7 @@ function findMaximunPathDFS(node: TreeNode | null): number {
   }
 }
 
+// find the maximun path in a tree (sum of left max path, right max path and root value)
 function findMaximunPath(root: TreeNode): number {
   const stack: TreeNode[] = [root];
   let max = -Infinity;
