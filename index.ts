@@ -1,9 +1,12 @@
+let counter = 0;
 class TreeNode {
+  id: number;
   value: number;
   left: null | TreeNode;
   right: null | TreeNode;
 
   constructor(value: number) {
+    this.id = counter++;
     this.value = value;
     this.left = null;
     this.right = null;
@@ -27,18 +30,31 @@ function createTree(
   return root;
 }
 
+// cache
+const cache: { [key: string]: number } = {};
 // DFS to find the maximun path descending from a root
 function findMaximunPathDFS(node: TreeNode | null): number {
   if (!node) return 0;
 
+  // check cache
+  if (cache[node.id]) {
+    return cache[node.id];
+  }
+
   const left = findMaximunPathDFS(node.left);
   const right = findMaximunPathDFS(node.right);
 
+  let result;
+
   if (left > right) {
-    return left + node.value;
+    result = left + node.value;
   } else {
-    return right + node.value;
+    result = right + node.value;
   }
+
+  // save to cache
+  cache[node.id] = result;
+  return result;
 }
 
 // find the maximun path in a tree (sum of left max path, right max path and root value)
