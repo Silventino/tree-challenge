@@ -41,12 +41,32 @@ function findMaximunPathDFS(node: TreeNode | null): number {
 }
 
 function findMaximunPath(root: TreeNode): number {
-  const left = findMaximunPathDFS(root.left);
-  const right = findMaximunPathDFS(root.right);
+  const stack: TreeNode[] = [root];
+  let max = -Infinity;
 
-  return left + right + root.value;
+  while (stack.length) {
+    const node = stack.pop() as TreeNode;
+    const sum =
+      findMaximunPathDFS(node.left) +
+      findMaximunPathDFS(node.right) +
+      node.value;
+
+    if (sum > max) {
+      max = sum;
+    }
+
+    if (node.left) {
+      stack.push(node.left);
+    }
+
+    if (node.right) {
+      stack.push(node.right);
+    }
+  }
+
+  return max;
 }
 
-const tree = createTree([1, 2, 3, 4, 5, 6, 7], null, 0) as TreeNode;
+const tree = createTree([1, 2, 3, 4, 5, 100, 200], null, 0) as TreeNode;
 
 console.log(findMaximunPath(tree));
